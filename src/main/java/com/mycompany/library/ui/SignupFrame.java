@@ -56,6 +56,8 @@ buttonPanel.add(backBtn);
 // Add it to the main panel
 buttonPanel.setBounds(0, 150, 420, 50);
 p.add(buttonPanel);
+add(p);
+
     }
 
     private void onCreate(ActionEvent e) {
