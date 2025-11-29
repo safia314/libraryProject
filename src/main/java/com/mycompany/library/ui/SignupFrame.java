@@ -62,8 +62,32 @@ add(p);
 
     private void onCreate(ActionEvent e) {
         String name = nameField.getText().trim(); String email = emailField.getText().trim(); String pass = new String(passwordField.getPassword());
+        
         if (name.isEmpty() || email.isEmpty() || pass.isEmpty()) { JOptionPane.showMessageDialog(this, "All fields required."); return; }
-        try {
+        if (!email.matches("^[\\w.%+-]+@[\\w.-]+\\.[A-Za-z]{2,6}$")) {
+        JOptionPane.showMessageDialog(this,
+            "Please enter a valid email address.",
+            "Invalid Email",
+            JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+       if (pass.length() < 6) {
+        JOptionPane.showMessageDialog(this,
+            "Password must be at least 6 characters long.",
+            "Weak Password",
+            JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+ 
+        if (!pass.matches("^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{6,}$")) {
+        JOptionPane.showMessageDialog(this,
+            "Password must include uppercase, lowercase, number, and special character.",
+            "Weak Password",
+            JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+           try {
             if (MemberDAO.emailExists(email)) { JOptionPane.showMessageDialog(this, "Email already registered."); return; }
             Member m = new Member(); m.setName(name); m.setEmail(email); m.setPasswordHash(PasswordHasher.hash(pass)); m.setRole("member");
             MemberDAO.addMember(m);
